@@ -1,4 +1,4 @@
-const RASPI_URL = "https://...";
+const RASPI_URL = "https://stories-adds-yeah-applied.trycloudflare.com/api/login";
 
 const out = document.getElementById("out");
 
@@ -19,7 +19,7 @@ document.getElementById("button-login").addEventListener("click", async () => {
         });
 
         const data = await res.json();
-        if (!res.response_status) throw new Error(data?.error || "Login fehlgeschlagen");
+        if (!res.ok) throw new Error(data?.error || "Login fehlgeschlagen");
 
         out.textContent = JSON.stringify(data, null, 2);
     } catch (err) {
