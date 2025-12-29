@@ -1,13 +1,30 @@
-// assets/scripts/login.js (DEBUG)
 document.addEventListener("DOMContentLoaded", () => {
-  // Sichtbarer Beweis, dass das Script läuft
-  const badge = document.createElement("div");
-  badge.textContent = "login.js wurde geladen ✅";
-  badge.style.padding = "10px";
-  badge.style.border = "1px solid #ddd";
-  badge.style.borderRadius = "10px";
-  badge.style.marginTop = "12px";
-  document.body.prepend(badge);
+  const url = "https://raspi-kickbase.ipv64.net/health";
 
-  alert("login.js läuft ✅");
+  const btn = document.getElementById("btn");
+  const statusEl = document.getElementById("status");
+
+  if (!btn || !statusEl) {
+    console.error("Button oder Status-Element fehlt in index.html");
+    return;
+  }
+
+  btn.addEventListener("click", async () => {
+    statusEl.textContent = "Status: teste Verbindung…";
+
+    try {
+      const res = await fetch(url, { method: "GET" });
+
+      if (!res.ok) {
+        statusEl.textContent = `Status: Server erreichbar, aber Fehlercode ${res.status}`;
+        return;
+      }
+
+      const data = await res.json();
+      statusEl.textContent = `✅ Server erreichbar!\nAntwort:\n${JSON.stringify(data, null, 2)}`;
+    } catch (err) {
+      statusEl.textContent =
+        "❌ Server NICHT erreichbar (CORS/Netz/Server down).\nDetails:\n" + String(err);
+    }
+  });
 });
