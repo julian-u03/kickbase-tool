@@ -1,29 +1,42 @@
-const RASPI_URL = "https://scholar-jennifer-spread-haven.trycloudflare.com/api/login";
+// assets/scripts/login.js
+document.addEventListener("DOMContentLoaded", () => {
+  const url = "https://raspi-kickbase.ipv64.net/health";
 
-const out = document.getElementById("out");
+  // UI bauen (Button + Status)
+  const container = document.createElement("div");
+  container.style.marginTop = "16px";
 
-document.getElementById("button-login").addEventListener("click", async () => {
-    out.textContent = "Sende Login...";
+  const btn = document.createElement("button");
+  btn.textContent = "Backend testen";
+  btn.style.padding = "10px 14px";
+  btn.style.fontSize = "16px";
+  btn.style.cursor = "pointer";
 
-    const payload = {
-        email: document.getElementById("email").value.trim(),
-        password: document.getElementById("password").value,
-        adminpassword: document.getElementById("adminpassword").value
-    };
+  const statusEl = document.createElement("div");
+  statusEl.textContent = "Status: (noch nicht getestet)";
+  statusEl.style.marginTop = "12px";
+  statusEl.style.padding = "10px";
+  statusEl.style.border = "1px solid #ddd";
+  statusEl.style.borderRadius = "10px";
 
+  container.appendChild(btn);
+  container.appendChild(statusEl);
+  document.body.appendChild(container);
+
+  btn.addEventListener("click", async () => {
+    statusEl.textContent = "Status: teste Verbindung…";
     try {
-        const res = await fetch(RASPI_URL, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(payload)
-        });
+      const res = await fetch(url, { method: "GET" });
 
-        const data = await res.json();
-        if (!res.ok) throw new Error(data?.error || "Login fehlgeschlagen");
+      if (!res.ok) {
+        statusEl.textContent = `Status: Server erreichbar, aber Fehlercode ${res.status}`;
+        return;
+      }
 
-        out.textContent = JSON.stringify(data, null, 2);
+      const data = await res.json();
+      statusEl.textContent = `✅ Server erreichbar! Antwort: ${JSON.stringify(data)}`;
     } catch (err) {
-        out.textContent = "Fehler: " + err.message;
+      statusEl.textContent = "❌ Server NICHT erreichbar (CORS/Netz/Server down). Details: " + err;
     }
-
+  });
 });
