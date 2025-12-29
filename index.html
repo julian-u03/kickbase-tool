@@ -3,12 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kickbase Backend Frontend</title>
-
-  <script src="assets/scripts/login.js" defer></script>
+  <title>Kickbase Backend Test</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 24px; }
+    button { padding: 10px 14px; font-size: 16px; cursor: pointer; }
+    #status { margin-top: 14px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
 </head>
 <body>
-  <h1>GitHub Pages läuft ✅</h1>
-  <p>Wenn du das siehst, ist das Frontend deployed.</p>
+  <h1>Backend Verbindung testen</h1>
+
+  <p>Backend URL: <code id="url">https://raspi-kickbase.ipv64.net/health</code></p>
+
+  <button id="btn">Backend testen</button>
+
+  <div id="status">Status: (noch nicht getestet)</div>
 </body>
 </html>
