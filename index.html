@@ -5,19 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kickbase Backend Test</title>
   <style>
-    body { font-family: system-ui, sans-serif; padding: 24px; }
+    body { font-family: system-ui, sans-serif; padding: 24px; max-width: 900px; margin: 0 auto; }
     button { padding: 10px 14px; font-size: 16px; cursor: pointer; }
-    #status { margin-top: 14px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; }
+    #status { margin-top: 14px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; white-space: pre-wrap; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
   </style>
-  <script src="/assets/scripts/login.js" defer></script>
+  <script src="./assets/scripts/login.js" defer></script>
 </head>
+
 <body>
   <h1>Backend Verbindung testen</h1>
 
   <p>Backend URL: <code id="url">https://raspi-kickbase.ipv64.net/health</code></p>
 
-  <button id="btn">Backend testen</button>
+  <div class="row">
+    <button id="btn" type="button">Backend testen</button>
+  </div>
 
   <div id="status">Status: (noch nicht getestet)</div>
 </body>
