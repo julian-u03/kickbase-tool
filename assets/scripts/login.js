@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const data = await res.json();
-      statusEl.textContent = `✅ Server erreichbar!\nAntwort:\n${JSON.stringify(data, null, 2)}`;
+      statusEl.textContent = `✅ Server erreichbar!`;
     } catch (err) {
       statusEl.textContent =
         "❌ Server NICHT erreichbar (CORS/Netz/Server down).\nDetails:\n" + String(err);
