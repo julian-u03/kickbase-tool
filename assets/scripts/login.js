@@ -1,30 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const url = "https://raspi-kickbase.ipv64.net/health";
+    const BASE_URL = "https://raspi-kickbase.ipv64.net";
+    const ENDPOINT = "/login";
 
-  const btn = document.getElementById("btn");
-  const statusEl = document.getElementById("status");
+    const form = document.getElementById("login-form");
+    const usermail = document.getElementById("user-mail");
+    const userpw = document.getElementById("user-password");
+    const adminpw = document.getElementById("admin-password");
+    const status = document.getElementById("status");
 
-  if (!btn || !statusEl) {
-    console.error("Button oder Status-Element fehlt in index.html");
-    return;
-  }
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-  btn.addEventListener("click", async () => {
-    statusEl.textContent = "Status: teste Verbindung…";
+        const payload = {
+            usermail: usermail.value.trim(),
+            userpw: userpw.value,
+            adminpw: adminpw.value,
+        };
 
-    try {
-      const res = await fetch(url, { method: "GET" });
+        try {
+            const response = await fetch(BASE_URL + ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
 
-      if (!res.ok) {
-        statusEl.textContent = `Status: Server erreichbar, aber Fehlercode ${res.status}`;
-        return;
-      }
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-      const data = await res.json();
-      statusEl.textContent = `✅ Server erreichbar!`;
-    } catch (err) {
-      statusEl.textContent =
-        "❌ Server NICHT erreichbar (CORS/Netz/Server down).\nDetails:\n" + String(err);
-    }
-  });
+            const data = await response.json();
+            status.textContent = "Login erfolgreich!";
+        } catch (error) {
+            status.textContent = "Login fehlgeschlagen!";
+        }
+    });
 });
