@@ -1,8 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
     const BASE_URL = "https://raspi-kickbase.ipv64.net";
-    const ENDPOINT = "/login";
+
+    const nameSpan = document.getElementById("name");
+    if (nameSpan) {
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get("name") || "Gast";
+        nameSpan.textContent = name;
+    }
 
     const form = document.getElementById("login-form");
+    if (!form) return;
+
     const usermail = document.getElementById("user-mail");
     const userpw = document.getElementById("user-password");
     const adminpw = document.getElementById("admin-password");
@@ -10,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
+        const ENDPOINT = "/login";
 
         const payload = {
             usermail: usermail.value.trim(),
@@ -27,9 +36,18 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
             const data = await response.json();
+
+            if (!data.ok) {
+                status.textContent = data.error || "Login fehlgeschlagen!";
+                return;
+            }
+
             status.textContent = "Login erfolgreich!";
+            const name = data.name || "Gast";
+            window.location.href = `content.html?name=${encodeURIComponent(name)}`;
         } catch (error) {
-            status.textContent = "Login fehlgeschlagen!";
+            status.textContent = "Server nicht erreicht!";
+            console.log(error);
         }
     });
 });

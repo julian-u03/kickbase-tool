@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    overflow: hidden;
+}
+
+.background, .content {
+    position: absolute;
+}
+
+.background {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.background div {
+    position: absolute;
+}
+
+#divider {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--base);
+    border-radius: 99% 1%;
+    transform: scale(2);
+    transform-origin: center;
+    filter: blur(60px);
+    overflow: hidden;
+}
+
+#accent-left {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--accent1);
+    clip-path: polygon(
+        0% 0%,
+        99% 0%,
+        1% 100%,
+        0% 100%
+    );
+}
+
+#accent-right {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--accent2);
+    clip-path: polygon(
+        100% 0%,
+        99% 0%,
+        1% 100%,
+        100% 100%
+    );
+}
